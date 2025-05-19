@@ -29,19 +29,19 @@
             <div class="table-responsive text-nowrap">
 
                 <table id="example" class="display table table-bordered py-3">
-                    <thead>
+                    <thead class="table-light">
                         <tr>
-                            <th>#</th>
-                            <th>No Pesanan</th>
-                            <th>Tanggal</th>
-                            <th>Nama</th>
-                            <th>Tipe Pembayaran</th>
-                            <th>Nominal</th>
-                            <th>Bank</th>
-                            <th>Nomor Rekening</th>
-                            <th>Nama Rekening</th>
-                            <th>Bukti Pembayaran</th>
-                            <th>Aksi</th>
+                            <th class="text-center fw-bold">#</th>
+                            <th class="text-center fw-bold">No Pesanan</th>
+                            <th class="text-center fw-bold">Tanggal</th>
+                            <th class="text-center fw-bold">User</th>
+                            <th class="text-center fw-bold">Tipe</th>
+                            <th class="text-center fw-bold">Nominal</th>
+                            <th class="text-center fw-bold">Bank</th>
+                            {{-- <th class="text-center fw-bold">Nomor Rekening</th>
+                            <th class="text-center fw-bold">Nama Rekening</th> --}}
+                            <th class="text-center fw-bold">Bukti Pembayaran</th>
+                            <th class="text-center fw-bold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,17 +49,17 @@
                         @foreach ($payments as $payment)
                         <tr>
                             <td>{{$a++}}</td>
-                            <td>{{$payment->pesanan->order_id}}</td>
-                            <td>{{\Carbon\Carbon::parse($payment->created_at)->isoFormat('D MMMM YYYY')}}</td>
+                            <td class="fw-bold">#{{$payment->pesanan->order_id}}</td>
+                            <td>{{\Carbon\Carbon::parse($payment->created_at)->format('d F Y, h:i A')}}</td>
                             <td>{{$payment->user->name}}</td>
-                            <td>{{$payment->tipe}}</td>
+                            <td class="text-center">{{ucWords($payment->tipe)}}</td>
                             <td>@currency($payment->nominal)</td>
-                            <td>{{$payment->bank_type == null ? '-' : $payment->bank_type}}</td>
-                            <td>{{$payment->nomor_rekening == null ? '-' : $payment->nomor_rekening}}</td>
-                            <td>{{$payment->nama_rekening == null ? '-' : $payment->nama_rekening}}</td>
-                            <td>
+                            <td style="text-transform: uppercase" class="text-center">{{$payment->bank_type == null ? '-' : $payment->bank_type}}</td>
+                            {{-- <td>{{$payment->nomor_rekening == null ? '-' : $payment->nomor_rekening}}</td>
+                            <td>{{$payment->nama_rekening == null ? '-' : $payment->nama_rekening}}</td> --}}
+                            <td class="text-center">
                                 @if ($payment->tipe == 'transfer')
-                                <a href="{{asset('bukti_tf')}}/{{$payment->bukti_pembayaran}}">Bukti Transfer</a>
+                                <a href="{{asset('storage/bukti_tf')}}/{{$payment->bukti_pembayaran}}">Bukti Transfer</a>
                                 @else
                                 -
                                 @endif
@@ -81,21 +81,6 @@
 
                             @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>No Pesanan</th>
-                            <th>Tanggal</th>
-                            <th>Nama</th>
-                            <th>Tipe Pembayaran</th>
-                            <th>Nominal</th>
-                            <th>Bank</th>
-                            <th>Nomor Rekening</th>
-                            <th>Nama Rekening</th>
-                            <th>Bukti Pembayaran</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
                 </table>
 
             </div>
