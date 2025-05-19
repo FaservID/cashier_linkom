@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Konsumen')
+@section('title', 'User')
 
 @push('custom-css')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="d-flex justify-content-between flex-column flex-sm-row">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Konsumen /</span> Konsumen</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">User /</span> Management</h4>
 </div>
 
 @if(session('message'))
@@ -23,30 +23,30 @@
 <div class="col-md-12">
     <div class="card mb-4">
         <div class="card-header">
-            List Konsumen
+            List User
         </div>
         <div class="card-body">
             <div class="table-responsive text-nowrap">
                 <table id="example" class="display table table-bordered py-3 table-responsive">
-                    <thead>
+                    <thead class="table-light">
                         <tr>
-                            <th>#</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Nomor Handphone</th>
-                            <th>Dibuat Tanggal</th>
-                            <th>Aksi</th>
+                            <th class="text-center fw-bold" style="width: 2%">#</th>
+                            <th class="text-center fw-bold">Nama</th>
+                            <th class="text-center fw-bold">Email</th>
+                            <th class="text-center fw-bold">Nomor Handphone</th>
+                            <th class="text-center fw-bold">Dibuat Tanggal</th>
+                            <th class="text-center fw-bold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i=1; ?>
                         @foreach ($users as $user)
                         <tr>
-                            <td>{{$i++}}</td>
+                            <td class="text-center">{{$i++}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->phone_number}}</td>
-                            <td>{{\Carbon\Carbon::parse($user->created_at)->isoFormat('dddd, D MMMM YYYY');}}</td>
+                            <td class="text-center">{{\Carbon\Carbon::parse($user->created_at)->format('d F Y h:i A');}}</td>
                             <td class="d-flex justify-content-center">
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -65,16 +65,6 @@
 
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Nomor Handphone</th>
-                            <th>Dibuat Tanggal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
