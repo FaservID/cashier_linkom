@@ -39,6 +39,7 @@ class StockController extends Controller
         $getFirstData = $barang->first();
         Stock::create([
             'barang_id' => $request->barang_id,
+            'supplier_id' => $request->supplier_id,
             'harga_beli' => $request->harga_beli,
             'jumlah' => $request->jumlah,
             'tanggal' => $request->tanggal,

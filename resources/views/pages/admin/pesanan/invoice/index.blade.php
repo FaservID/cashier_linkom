@@ -1,10 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Invoice CV. LINKOM</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon" />
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
@@ -13,97 +18,182 @@
         }
 
     </style>
+
+    <!-- Invoice styling -->
+    <style>
+        body {
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            text-align: center;
+            color: #777;
+        }
+
+        body h1 {
+            font-weight: 300;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            color: #000;
+        }
+
+        body h3 {
+            font-weight: 300;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        body a {
+            color: #06f;
+        }
+
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <div class="card">
-        <div class="card-body">
-            <div class="container mb-5 mt-3">
-                <div class="row d-flex align-items-baseline">
-                    <div class="col-xl-9">
-                        <p style="color: #7e8d9f;font-size: 20px;">Invoice >> <strong>ID: {{$pesanan->order_id}}</strong></p>
-                    </div>
-                    <div class="col-xl-3 float-end">
-                        <a class="btn text-capitalize border-0" data-mdb-ripple-color="dark" onclick="window.print()"><i class="fas fa-print text-primary"></i> Print</a>
-                    </div>
-                    <hr>
-                </div>
+    <div class="invoice-box" style="margin-top:10vh">
+        <table>
+            <tr class="top">
+                <td colspan="5">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <h3>CV. LINKOM</h3>
+                            </td>
 
-                <div class="container">
-                    <div class="col-md-12">
-                        <div class="text-center">
-                            <p class="pt-0 display-6">CV. Kasur Asssahaz</p>
-                        </div>
+                            <td>
+                                Invoice #: {{ $pesanan->order_id }}<br />
+                                Dibuat : {{ \Carbon\Carbon::parse($pesanan->created_at)->format('d F Y') }}<br />
+                                Status : {{ ucWords($pesanan->status) }}<br />
+                                Metode Pembayaran : {{ ucWords($pesanan->payment?->tipe) }}<br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-8">
-                            <ul class="list-unstyled">
-                                <li class="text-muted">Kepada: <span style="color:#5d9fc5 ;">{{$pesanan->user->name}}</span></li>
-                                <li class="text-muted">{{$pesanan->user->email}}</li>
-                                <li class="text-muted">Indonesia</li>
-                                <li class="text-muted"><i class="fas fa-phone"></i> {{$pesanan->user->phone_number}}</li>
-                            </ul>
-                        </div>
-                        <div class="col-xl-4">
-                            <p class="text-muted" style="font-weight: bold">Invoice</p>
-                            <ul class="list-unstyled">
-                                <li class="text-muted"><i class="fa-solid fa-circle fa-2xs"></i> <span class="fw-bold">ID:</span> {{$pesanan->order_id}}</li>
-                                <li class="text-muted"><i class="fa-solid fa-circle fa-2xs"></i> <span class="fw-bold">Tanggal Order: </span>{{\Carbon\Carbon::parse($pesanan->created_at)->isoFormat('D MMMM YYYY')}}</li>
-                                <li class="text-muted"><i class="fa-solid fa-circle fa-2xs"></i> <span class="me-1 fw-bold">Status:</span><span class="text-black fw-bold">
-                                        {{$pesanan->status}}</span></li>
-                            </ul>
-                        </div>
-                    </div>
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                CV. LINKOM.<br />
+                                Jalan Bangau 1133 Ilir Tim. II<br />
+                                Kota Palembang, 30126 <br>
+                                <a data-mdb-ripple-color="dark" style="cursor: pointer" onclick="window.print()"><i class="fas fa-print text-primary"></i> Print</a>
+                            </td>
 
-                    <div class="row my-2 mx-1 justify-content-center">
-                        <table class="table table-striped table-borderless">
-                            <thead style="background-color:#84B0CA ;" class="text-white">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Harga</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i=1;?>
-                                @foreach ($pesanan->detailOrders as $item)
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-                                <tr>
-                                    <th scope="row">{{$i++}}</th>
-                                    <td>{{$item->barang->nama}}</td>
-                                    <td>{{$item->jumlah}}</td>
-                                    <td>@currency($item->barang->harga)</td>
-                                    <td>@currency($item->harga)</td>
-                                </tr>
-                                @endforeach
+            <tr class="heading">
+                <td style="text-align:center; width: 5%">#</td>
+                <td style="text-align:center; width: 30%">Barang</td>
+                <td style="text-align:center; width: 5%">Jumlah</td>
+                <td style="text-align:center; width: 30%">Harga</td>
+                <td style="text-align:center; width: 30%">Total Harga</td>
+            </tr>
 
-                            </tbody>
+            <?php $i = 1; ?>
+            @foreach ($pesanan->detailOrders as $item)
+                <tr class="item">
+                    <th style="text-align: center">{{ $i++ }}</th>
+                    <td style="text-align: left">{{ $item->barang->nama }}</td>
+                    <td style="text-align: center">{{ $item->jumlah }}</td>
+                    <td style="text-align: center">@currency($item->barang->harga)</td>
+                    <td style="text-align: right">@currency($item->harga)</td>
+                </tr>
+            @endforeach
+            {{-- <tr class="item last">
+					<td>Domain name (1 year)</td>
 
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-8">
+					<td>$10.00</td>
+				</tr> --}}
 
-                        </div>
-                        <div class="col-xl-3">
-
-                            <p class="text-black float-start"><span class="text-black me-3"> Jumlah Total</span><span style="font-size: 25px;">@currency($pesanan->total_harga)</span></p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xl-10">
-                            <p>Thank you for your purchase</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+            <tr class="total">
+                <td colspan="5" style="text-align: right">@currency($pesanan->total_harga)</td>
+            </tr>
+        </table>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
+
 </html>

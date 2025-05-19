@@ -78,7 +78,7 @@
                                                                 @foreach ($order->detailOrders as $item)
                                                                 <tr>
                                                                     <td>{{$i++}}</td>
-                                                                    <th><img src="{{asset('product_image')}}/{{$item->barang->foto}}" width="100" class="img img-fluid"></th>
+                                                                    <th><img src="{{asset('storage/product_image')}}/{{$item->barang->foto}}" width="100" class="img img-fluid"></th>
                                                                     <td class="text-center">{{$item->barang->nama}}</td>
                                                                     <td class="text-center">{{$item->barang->kategori->nama}}</td>
                                                                     <td class="text-center">{{$item->barang->tipe}}</td>

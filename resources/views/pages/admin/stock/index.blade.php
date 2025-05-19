@@ -64,7 +64,7 @@
                             <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label for="defaultFormControlInput" class="form-label">Pilih Supplier</label>
-                                    <select class="select2 form-control form-select" name="barang_id">
+                                    <select class="select2 form-control form-select" name="supplier_id">
                                         <option value="" selected disabled>-- Pilih Supplier --</option>
                                         @foreach ($suppliers as $supplier)
                                             <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>

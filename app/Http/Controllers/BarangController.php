@@ -40,13 +40,42 @@ class BarangController extends Controller
     public function store(CreateBarangRequest $request)
     {
         // dd($request->all());
-        if ($request->file('foto') != null) {
+        if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $extension = $file->getClientOriginalExtension();
-            // if (!in_array($file, ['png', 'jpg', 'jpeg', 'pdf'])) continue;
-            $filename = time() . '.' . $extension;
-            $filename = str_replace(' ', '-', $filename);
-            $file->move('product_image', $filename);
+            $extension = strtolower($file->getClientOriginalExtension());
+
+            if (in_array($extension, ['jpg', 'jpeg', 'png'])) {
+                // Nama file baru
+                $newFilename = time() . '.webp';
+                $webpPath = storage_path('app/public/product_image/' . $newFilename);
+
+                // Pastikan folder ada
+                if (!file_exists(dirname($webpPath))) {
+                    mkdir(dirname($webpPath), 0755, true);
+                }
+
+                // Buka gambar
+                $image = null;
+                if ($extension === 'jpg' || $extension === 'jpeg') {
+                    $image = imagecreatefromjpeg($file->getPathname());
+                } elseif ($extension === 'png') {
+                    $image = imagecreatefrompng($file->getPathname());
+                }
+
+                if ($image) {
+                    // Simpan sebagai webp ke storage
+                    imagewebp($image, $webpPath, 80); // kualitas 80%
+                    imagedestroy($image);
+                    $filename = $newFilename;
+
+                    // Hapus gambar lama jika ada
+                    if ($request->foto && Storage::exists('public/product_image/' . $request->foto)) {
+                        Storage::delete('public/product_image/' . $request->foto);
+                    }
+                }
+            } else {
+                return back()->withErrors(['foto' => 'Format gambar harus .jpg, .jpeg, atau .png']);
+            }
         }
         $tempSlug = $request->nama_barang . ' ' . time();
         $slug = Str::of($tempSlug)->slug('-');

@@ -112,7 +112,7 @@
                                                                             <th class="text-center">
                                                                                 <div class="fw-bold"
                                                                                     style="font-size: 15px">
-                                                                                    @currency($item->pesanan->total_harga)
+                                                                                    @currency($order->total_harga)
                                                                                 </div>
                                                                             </th>
                                                                         </tr>
