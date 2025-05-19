@@ -29,16 +29,16 @@
             <div class="table-responsive text-nowrap">
 
                 <table id="example" class="display table table-bordered py-3">
-                    <thead>
+                    <thead class="table-light">
                         <tr>
-                            <th>#</th>
-                            <th>No Pesanan</th>
-                            <th>Nama</th>
-                            <th>Nama Barang</th>
-                            <th>Total Harga</th>
-                            <th>Status</th>
-                            <th>Tanggal Order</th>
-                            <th>Aksi</th>
+                            <th class="text-center fw-bold">#</th>
+                            <th class="text-center fw-bold">No Pesanan</th>
+                            <th class="text-center fw-bold">Nama</th>
+                            <th class="text-center fw-bold">Nama Barang</th>
+                            <th class="text-center fw-bold">Total Harga</th>
+                            <th class="text-center fw-bold">Status</th>
+                            <th class="text-center fw-bold">Tanggal Order</th>
+                            <th class="text-center fw-bold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,10 +46,12 @@
                         @foreach ($orders as $order)
                         <tr>
                             <td>{{$a++}}</td>
-                            <td>{{$order->order_id}}</td>
-                            <td>{{$order->user->name}}</td>
+                            <td class="fw-bold">#{{$order->order_id}}</td>
+                            <td>{{ucWords($order->user->name)}}</td>
                             <td>
-                                <div class="badge bg-secondary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#showData{{$order->id}}" data-target="#showData{{$order->id}}">Lihat Barang</div>
+                                <div class="text-center">
+                                    <div class="badge bg-secondary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#showData{{$order->id}}" data-target="#showData{{$order->id}}">Lihat Barang</div>
+                                </div>
                                 <div class="modal fade" id="showData{{$order->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-xl">
                                         <div class="modal-content">
@@ -60,15 +62,15 @@
                                                 <div class="col-md-12">
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered">
-                                                            <thead>
+                                                            <thead class="table-light">
                                                                 <tr>
-                                                                    <th>#</th>
-                                                                    <th>Gambar</th>
-                                                                    <th>Nama Barang</th>
-                                                                    <th>Tipe</th>
-                                                                    <th>Ukuran</th>
-                                                                    <th>Jumlah</th>
-                                                                    <th>Harga</th>
+                                                                    <th class="fw-bold text-center">#</th>
+                                                                    <th class="fw-bold text-center">Gambar</th>
+                                                                    <th class="fw-bold text-center">Nama Barang</th>
+                                                                    <th class="fw-bold text-center">Kategori</th>
+                                                                    <th class="fw-bold text-center">Tipe</th>
+                                                                    <th class="fw-bold text-center">Jumlah</th>
+                                                                    <th class="fw-bold text-center">Harga</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -77,19 +79,22 @@
                                                                 <tr>
                                                                     <td>{{$i++}}</td>
                                                                     <th><img src="{{asset('product_image')}}/{{$item->barang->foto}}" width="100" class="img img-fluid"></th>
-                                                                    <td>{{$item->barang->nama}}</td>
-                                                                    <td>{{$item->barang->tipe}}</td>
-                                                                    <td>{{$item->barang->panjang}} x {{$item->barang->lebar}}</td>
-                                                                    <td>{{$item->jumlah}}</td>
-                                                                    <td>@currency($item->harga)</td>
+                                                                    <td class="text-center">{{$item->barang->nama}}</td>
+                                                                    <td class="text-center">{{$item->barang->kategori->nama}}</td>
+                                                                    <td class="text-center">{{$item->barang->tipe}}</td>
+                                                                    <td class="text-center">{{$item->jumlah}}</td>
+                                                                    <td class="text-center">@currency($item->harga)</td>
                                                                 </tr>
                                                                 @endforeach
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr>
-                                                                    <th>#</th>
-                                                                    <th colspan="5">Total Harga</th>
-                                                                    <th>@currency($item->pesanan->total_harga)</th>
+                                                                    <th colspan="6" class="text-end">Total Harga</th>
+                                                                    <th class="text-center">
+                                                                        <div class="fw-bold" style="font-size: 15px">
+                                                                            @currency($item->pesanan->total_harga)
+                                                                        </div>
+                                                                    </th>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>
@@ -106,11 +111,11 @@
 
 
                             </td>
-                            <td>@currency($order->total_harga)</td>
-                            <td>
+                            <td class="text-center">@currency($order->total_harga)</td>
+                            <td class="text-center">
                                 <div class="badge bg-success text-white">{{$order->status}}</div>
                             </td>
-                            <td>{{\Carbon\Carbon::parse($order->created_at)->isoFormat('D MMMM YYYY')}}</td>
+                            <td class="text-center">{{\Carbon\Carbon::parse($order->created_at)->format('d F Y h:i A')}}</td>
                             <td class="d-flex justify-content-center">
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -142,18 +147,6 @@
 
                             @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>No Pesanan</th>
-                            <th>Nama</th>
-                            <th>Nama Barang</th>
-                            <th>Total Harga</th>
-                            <th>Status</th>
-                            <th>Tanggal Order</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
                 </table>
 
             </div>
