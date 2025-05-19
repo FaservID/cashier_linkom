@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\DetailOrder;
 use App\Models\Kategori;
 use App\Models\Pesanan;
+use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -58,7 +59,7 @@ class HomeController extends Controller
             'terjual' => DetailOrder::count(),
             'stock' => $stock,
             'transaksi' => Pesanan::count(),
-            'pengguna' => User::where('type', 0)->count(),
+            'supplier' => Supplier::count(),
             'pemasukan' => $pemasukan
         ];
         return view('pages.admin.index', compact('data'));

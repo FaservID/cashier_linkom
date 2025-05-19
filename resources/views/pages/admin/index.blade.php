@@ -9,9 +9,9 @@
             <div class="col-lg-8 mb-md-0 mb-3">
                 <div class="card">
                     <div class="d-flex align-items-end row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-8">
                             <div class="card-body">
-                                <h5 class="card-title text-primary display-6">Halo, {{auth()->user()->name}}! 🎉</h5>
+                                <h5 class="card-title text-primary display-6">Halo, {{ucWords(auth()->user()->name)}}! 🎉</h5>
                                 <p class="mb-4">
                                     {{\Carbon\Carbon::now()->isoFormat('dddd, D MMMM YYYY');}}
                                 </p>
@@ -20,7 +20,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-sm-5 text-center text-sm-left">
+                        <div class="col-sm-4 text-center text-sm-left">
                             <div class="card-body pb-0 px-0 px-md-4">
                                 <img src="{{asset('sneat/assets/img/illustrations/man-with-laptop-light.png')}}" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
                             </div>
@@ -124,8 +124,8 @@
                                 <i class='bx bx-user-circle text-dark' style="font-size: 35px;"></i>
                             </div>
                         </div>
-                        <span class="fw-semibold d-block mb-1">Pengguna</span>
-                        <h3 class="card-title mb-2">{{$data['pengguna']}}</h3>
+                        <span class="fw-semibold d-block mb-1">Supplier</span>
+                        <h3 class="card-title mb-2">{{$data['supplier']}}</h3>
                         {{-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.14%</small> --}}
                     </div>
                 </div>
