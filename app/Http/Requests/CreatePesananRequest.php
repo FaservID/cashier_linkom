@@ -22,11 +22,7 @@ class CreatePesananRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'phone_number' => 'required',
-            'email' => 'required',
             'order_id' => 'required',
-            
         ];
     }
 }

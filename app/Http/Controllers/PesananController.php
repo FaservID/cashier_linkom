@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePesananRequest;
 use App\Models\Barang;
 use App\Models\DetailOrder;
+use App\Models\Payment;
 use App\Models\Pesanan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PesananController extends Controller
 {
@@ -36,65 +39,79 @@ class PesananController extends Controller
      */
     public function store(CreatePesananRequest $request)
     {
-
-        $pid = $request->pid;
-        $countPid = count($pid);
-        // dd($request->barang_id);
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'password' => bcrypt('12345678'),
-        ]);
-
-        $getUser = User::orderBy('id', 'DESC')->first();
-
-        Pesanan::create([
-            'order_id' => $request->order_id,
-            'status' => 'Belum Dibayar',
-            'user_id' => $getUser->id
-        ]);
-        $arr_harga = [];
-        $pesanan = Pesanan::orderBy('id', 'DESC')->first();
-
-        if ($countPid > 0) {
-            for ($i = 0; $i < $countPid; $i++) {
-                $arr_harga[] = $request->harga[$i] * $request->quantity[$i];
-                $barang = Barang::where('id', $request->pid[$i])->first();
-                // dd($barang);
-                $data = array(
-                    'pesanan_id' => $pesanan->id,
+        DB::beginTransaction();
+        try {
+            $pid = $request->pid;
+            $countPid = count($pid);
+            // dd($request->all());
+            if ($request->payment_method == 'cash') {
+                $order = Pesanan::create([
                     'order_id' => $request->order_id,
-                    'barang_id' => $request->pid[$i],
-                    'harga' => $request->harga[$i] * $request->quantity[$i],
-                    'jumlah' => $request->quantity[$i],
-                );
-                DetailOrder::create($data);
-
-                Barang::where('id', $request->pid[$i])->update([
-                    'in_stock' => ($barang->in_stock - $request->quantity[$i]),
-                    'sell_stock' => $barang->sell_stock + $request->quantity[$i],
+                    'status' => 'Paid',
+                    'user_id' => Auth::user()->id,
+                ]);
+                Payment::create([
+                    'pesanan_id' => $order->id,
+                    'tipe' => $request->payment_method,
+                    'nominal' => $request->harga_cash,
+                    'user_id' => Auth::user()->id,
+                ]);
+                // dd($order);
+            } else {
+                $order = Pesanan::create([
+                    'order_id' => $request->order_id,
+                    'status' => 'Unpaid',
+                    'user_id' => Auth::user()->id,
+                ]);
+                Payment::create([
+                    'pesanan_id' => $order->id,
+                    'user_id' => Auth::user()->id,
+                    'tipe' => $request->payment_method,
+                    'nominal' => $request->harga_transfer,
                 ]);
             }
+            $arr_harga = [];
+            // dd($order);
+            if ($countPid > 0) {
+                for ($i = 0; $i < $countPid; $i++) {
+                    $arr_harga[] = $request->harga[$i] * $request->quantity[$i];
+                    $barang = Barang::where('id', $request->pid[$i])->first();
+                    // dd($barang);
+                    $data = array(
+                        'pesanan_id' => $order->id,
+                        'order_id' => $request->order_id,
+                        'barang_id' => $request->pid[$i],
+                        'harga' => $request->harga[$i] * $request->quantity[$i],
+                        'jumlah' => $request->quantity[$i],
+                    );
+                    DetailOrder::create($data);
+
+                    Barang::where('id', $request->pid[$i])->update([
+                        'in_stock' => ($barang->in_stock - $request->quantity[$i]),
+                        'sell_stock' => $barang->sell_stock + $request->quantity[$i],
+                    ]);
+                }
+            }
+            $total_harga = array_sum($arr_harga);
+            Pesanan::where('order_id', $request->order_id)->update(['total_harga' => $total_harga]);
+            DB::commit();
+            return redirect()->route('pesanan.index')->with('message', 'Berhasil Membuat Pesanan');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('message', 'Gagal Membuat Pesanan ' ,  $e->getMessage());
         }
-        $total_harga = array_sum($arr_harga);
-        Pesanan::where('order_id', $request->order_id)->update(['total_harga' => $total_harga]);
-
-
-
-        return redirect()->route('pesanan.index')->with('message', 'Berhasil Membuat Pesanan');
     }
 
     public function finishOrder(Pesanan $pesanan)
     {
-        $pesanan->update(['status' => 'Selesai']);
+        $pesanan->update(['status' => 'Completed']);
         return redirect()->route('pesanan.index')->with('message', 'Pesanan Telah diselesaikan');
     }
 
     public function history()
     {
         return view('pages.admin.history.index', [
-            'orders' => Pesanan::with('user', 'barang', 'detailOrders')->where('status', 'Selesai')->orderBy('id', 'DESC')->get(),
+            'orders' => Pesanan::with('user', 'barang', 'detailOrders')->where('status', 'Completed')->orderBy('id', 'DESC')->get(),
         ]);
     }
 
@@ -152,6 +169,5 @@ class PesananController extends Controller
         // $barang = $pesanan->detailOrders->barang_id;
         $pesanan->delete();
         return redirect()->route('pesanan.index')->with('message', 'Pesanan Berhasil Dihapus');
-
     }
 }
