@@ -1,17 +1,17 @@
 @extends('layouts.main')
-@section('title', 'owner Home')
+@section('title', 'Admin Home')
 
 
 @section('content')
 <div class="row">
     <div class="col-lg-12 mb-4 order-0">
         <div class="row">
-            <div class="col-lg-8 mb-md-0 mb-3">
+            <div class="col-lg-12 mb-md-0 mb-3">
                 <div class="card">
                     <div class="d-flex align-items-end row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-8">
                             <div class="card-body">
-                                <h5 class="card-title text-primary display-6">Halo, {{auth()->user()->name}}! 🎉</h5>
+                                <h5 class="card-title text-primary display-6">Halo, {{ucWords(auth()->user()->name)}}! 🎉</h5>
                                 <p class="mb-4">
                                     {{\Carbon\Carbon::now()->isoFormat('dddd, D MMMM YYYY');}}
                                 </p>
@@ -20,7 +20,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-sm-5 text-center text-sm-left">
+                        <div class="col-sm-4 text-center text-sm-left">
                             <div class="card-body pb-0 px-0 px-md-4">
                                 <img src="{{asset('sneat/assets/img/illustrations/man-with-laptop-light.png')}}" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
                             </div>
@@ -28,13 +28,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+        </div>
+    </div>
+    <div class="col-lg-12 mb-4">
+        <div class="row">
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="d-flex align-items-end row">
                         <div class="col-12">
                             <div class="card-body">
                                 <i class='bx bx-dollar-circle' style="font-size: 35px;"></i>
-                                <div class="py-2">Total Pemasukan</div>
+                                <div class="py-2">Total Pemasukan <span class="text-danger fst-italic"><sup>(Based on Transaction)</sup></span></div>
                                 <h2>@currency($data['pemasukan'])</h2>
                             </div>
                         </div>
@@ -42,6 +46,21 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-12">
+                            <div class="card-body">
+                                <i class='bx bx-dollar-circle' style="font-size: 35px;"></i>
+                                <div class="py-2">Total Pengeluaran <span class="text-danger fst-italic"><sup>(Based on Stock)</sup></span></div>
+                                <h2>@currency($data['pengeluaran'])</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="col-lg-12 col-md-12 order-1">
@@ -124,8 +143,8 @@
                                 <i class='bx bx-user-circle text-dark' style="font-size: 35px;"></i>
                             </div>
                         </div>
-                        <span class="fw-semibold d-block mb-1">Pengguna</span>
-                        <h3 class="card-title mb-2">{{$data['pengguna']}}</h3>
+                        <span class="fw-semibold d-block mb-1">Supplier</span>
+                        <h3 class="card-title mb-2">{{$data['supplier']}}</h3>
                         {{-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.14%</small> --}}
                     </div>
                 </div>

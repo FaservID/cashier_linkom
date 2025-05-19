@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-lg-12 mb-4 order-0">
         <div class="row">
-            <div class="col-lg-8 mb-md-0 mb-3">
+            <div class="col-lg-12 mb-md-0 mb-3">
                 <div class="card">
                     <div class="d-flex align-items-end row">
                         <div class="col-sm-8">
@@ -28,13 +28,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+        </div>
+    </div>
+    <div class="col-lg-12 mb-4">
+        <div class="row">
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="d-flex align-items-end row">
                         <div class="col-12">
                             <div class="card-body">
                                 <i class='bx bx-dollar-circle' style="font-size: 35px;"></i>
-                                <div class="py-2">Total Pemasukan</div>
+                                <div class="py-2">Total Pemasukan <span class="text-danger fst-italic"><sup>(Based on Transaction)</sup></span></div>
                                 <h2>@currency($data['pemasukan'])</h2>
                             </div>
                         </div>
@@ -42,6 +46,21 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-12">
+                            <div class="card-body">
+                                <i class='bx bx-dollar-circle' style="font-size: 35px;"></i>
+                                <div class="py-2">Total Pengeluaran <span class="text-danger fst-italic"><sup>(Based on Stock)</sup></span></div>
+                                <h2>@currency($data['pengeluaran'])</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="col-lg-12 col-md-12 order-1">

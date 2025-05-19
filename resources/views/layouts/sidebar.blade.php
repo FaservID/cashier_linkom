@@ -133,7 +133,7 @@
                                 <div data-i18n="laporan stock">Laporan Transaksi</div>
                             </a>
                         </li>
-                        <li class="menu-item {{ request()->is('owner/laporan/jurnal-umum') ? 'active' : ''}}">
+                        {{-- <li class="menu-item {{ request()->is('owner/laporan/jurnal-umum') ? 'active' : ''}}">
                             <a href="{{route('owner.pesanan.jurnal-umum')}}" class="menu-link">
                                 <div data-i18n="Jurnal Umum">Jurnal Umum</div>
                             </a>
@@ -147,7 +147,7 @@
                             <a href="{{route('owner.pesanan.buku-besar')}}" class="menu-link">
                                 <div data-i18n="Buku Besar">Buku Besar</div>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             </ul>

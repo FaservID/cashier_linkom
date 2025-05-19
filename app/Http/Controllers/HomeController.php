@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\DetailOrder;
 use App\Models\Kategori;
 use App\Models\Pesanan;
+use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -49,9 +50,11 @@ class HomeController extends Controller
 
         $pesanan = Pesanan::where('status', 'Completed')->get();
         $pemasukan = 0;
+        $pengeluaran = Stock::sum('harga_beli');
         for ($i = 0; $i < count($pesanan); $i++) {
             $pemasukan += $pesanan[$i]->total_harga;
         }
+
         // dd($stock);
         $data = [
             'barang' => Barang::count(),
@@ -60,7 +63,8 @@ class HomeController extends Controller
             'stock' => $stock,
             'transaksi' => Pesanan::count(),
             'supplier' => Supplier::count(),
-            'pemasukan' => $pemasukan
+            'pemasukan' => $pemasukan,
+            'pengeluaran' => $pengeluaran
         ];
         return view('pages.admin.index', compact('data'));
     }
@@ -78,11 +82,13 @@ class HomeController extends Controller
             $stock += $barang[$i]->in_stock;
         }
 
-        $pesanan = Pesanan::where('status', 'Selesai')->get();
+        $pesanan = Pesanan::where('status', 'Completed')->get();
         $pemasukan = 0;
+        $pengeluaran = Stock::sum('harga_beli');
         for ($i = 0; $i < count($pesanan); $i++) {
             $pemasukan += $pesanan[$i]->total_harga;
         }
+
         // dd($stock);
         $data = [
             'barang' => Barang::count(),
@@ -90,8 +96,9 @@ class HomeController extends Controller
             'terjual' => DetailOrder::count(),
             'stock' => $stock,
             'transaksi' => Pesanan::count(),
-            'pengguna' => User::where('type', 0)->count(),
-            'pemasukan' => $pemasukan
+            'supplier' => Supplier::count(),
+            'pemasukan' => $pemasukan,
+            'pengeluaran' => $pengeluaran
         ];
         return view('pages.owner.index', compact('data'));
     }

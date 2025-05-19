@@ -37,7 +37,6 @@
             </div>
             <div class="card-body mt-4">
                 <div class="table-responsive text-nowrap">
-
                     <table id="example" class="display table table-bordered py-3 table-responsive">
                         <thead class="table-light">
                             <tr>

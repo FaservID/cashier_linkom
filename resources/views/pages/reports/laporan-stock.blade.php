@@ -26,16 +26,16 @@
     </style>
 </head>
 <body>
-    <div class="col-12">
+    <div class="col-12 my-5">
         <div class="row mb-0 text-center">
-            <h1 class="display-6" style="font-weight: bold; text-transform: uppercase">CV. Kasur Asssahaz</h1>
+            <h1 class="display-6" style="font-weight: bold; text-transform: uppercase">CV. LINKOM</h1>
             <h5>Laporan Stock Barang</h5>
             <div>Pertanggal {{\Carbon\Carbon::parse($date_from)->isoFormat('D MMMM YYYY')}} - {{\Carbon\Carbon::parse($date_to)->isoFormat('D MMMM YYYY')}}</div>
         </div>
     </div>
     <hr class="mb-4 border-black">
     <table class="table table-bordered table-striped">
-        <thead style="background-color:#84B0CA ;" class="text-white text-center align-middle">
+        <thead class="text-white text-center align-middle table-dark">
             <tr>
                 <th scope="col" rowspan="2">#</th>
                 <th scope="col" rowspan="2">Nama Barang</th>

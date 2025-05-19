@@ -77,7 +77,7 @@ class LaporanController extends Controller
     public function laporanTransaksi(): View
     {
         return view('pages.owner.laporan.laporan-transaksi', [
-            'transactions' => Pesanan::with('user', 'barang', 'detailOrders')->where('status', 'Selesai')->orderBy('id', 'DESC')->get(),
+            'transactions' => Pesanan::with('user', 'barang', 'detailOrders')->orderBy('id', 'DESC')->get(),
         ]);
     }
 
@@ -86,7 +86,7 @@ class LaporanController extends Controller
     {
         $date_from = $request->date_from;
         $date_to = $request->date_to;
-        $transactions = Pesanan::with('user', 'barang', 'detailOrders')->where('status', 'Selesai')->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to)->get();
+        $transactions = Pesanan::with('user', 'barang', 'detailOrders')->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to)->get();
         return view('pages.reports.laporan-transaksi', ['transactions' => $transactions, 'date_from' => $date_from, 'date_to' => $date_to]);
     }
 

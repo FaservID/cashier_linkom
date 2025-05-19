@@ -36,18 +36,18 @@
     </style>
 </head>
 <body>
-    <div class="col-12">
+    <div class="col-12 my-5">
         <div class="row mb-0 text-center">
-            <h1 class="display-6" style="font-weight: bold; text-transform: uppercase">CV. Kasur Asssahaz</h1>
+            <h1 class="display-6" style="font-weight: bold; text-transform: uppercase">CV. LINKOM</h1>
             <h5>Laporan Transaksi</h5>
-            <div>Pertanggal {{\Carbon\Carbon::parse($date_from)->isoFormat('D MMMM YYYY')}} - {{\Carbon\Carbon::parse($date_to)->isoFormat('D MMMM YYYY')}}</div>
+            <div>Pertanggal {{\Carbon\Carbon::parse($date_from)->format('d F Y')}} - {{\Carbon\Carbon::parse($date_to)->format('d F Y')}}</div>
         </div>
     </div>
     <hr class="mb-4 border-black">
     <table class="table table-bordered table-striped">
-        <thead style="background-color:#84B0CA ;" class="text-white">
+        <thead class="text-white table-dark">
             <tr style="text-align: center">
-                <th scope="col">#</th>
+                <th scope="col" style="width: 2%">#</th>
                 <th scope="col">No Pesanan</th>
                 <th scope="col" style="width: 100px">Nama</th>
                 <th scope="col" style="width: 200px">Nama Barang</th>
@@ -60,9 +60,9 @@
             <?php $i=1; ?>
             @foreach ($transactions as $transaction)
             <tr>
-                <th scope="row">{{$i++}}</th>
-                <td>{{$transaction->order_id}}</td>
-                <td>{{$transaction->user->name}}</td>
+                <th scope="row" class="text-center">{{$i++}}</th>
+                <td>#{{$transaction->order_id}}</td>
+                <td>{{ucWords($transaction->user->name)}}</td>
                 <td>
                     <?php $x=1; ?>
                     @foreach ($transaction->detailOrders as $item)
@@ -80,7 +80,7 @@
                     @endforeach
                 </td>
                 <td>{{$transaction->status}}</td>
-                <td>{{\Carbon\Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY')}}</td>
+                <td>{{\Carbon\Carbon::parse($transaction->created_at)->format('d F Y h:i A')}}</td>
             </tr>
             @endforeach
         </tbody>
